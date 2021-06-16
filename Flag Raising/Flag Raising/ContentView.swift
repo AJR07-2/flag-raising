@@ -8,16 +8,17 @@
 import SwiftUI
 
 struct ContentView: View {
-    let chosenFlag = Int.random(in: 1..<264)
-    @State var flagOffset = 225
+    @State var chosenFlag = Int.random(in: 1..<264)
+    @State var flagOffset = 200
     @State var showGuessFlag = false
     var body: some View {
         VStack{
             Text("Flag Raising!!!")
                 .bold()
                 .font(.title)
-            Text("Click on the flag to raise it")
+            Text("Click on the flag to raise it, and tap anywhere else to lower it")
                 .font(.headline)
+                .frame(width: 300, height: 100, alignment: .center)
             Circle()
                 .frame(width :510, height: 30, alignment: .top)
                 .offset(x: -101, y: 10)
@@ -26,8 +27,8 @@ struct ContentView: View {
                 Path { path in
                     path.move(to: CGPoint(x: 110, y: 0))
                     path.addLine(to: CGPoint(x: 100, y: 0))
-                    path.addLine(to: CGPoint(x: 100, y: 650))
-                    path.addLine(to: CGPoint(x: 110, y: 650))
+                    path.addLine(to: CGPoint(x: 100, y: 550))
+                    path.addLine(to: CGPoint(x: 110, y: 550))
                 }
                 Image(Flags[chosenFlag])
                     .resizable()
@@ -41,11 +42,20 @@ struct ContentView: View {
                                         flagOffset -= 10
                                     }
                                 }
-                                print("hello")
-                                print(flagOffset)
                             }
                     )
             }
+            .gesture(
+                TapGesture()
+                    .onEnded { _ in
+                        withAnimation{
+                            if(flagOffset < 200){
+                                flagOffset += 10
+                            }
+                        }
+                    }
+            )
+            
             Button(action: {
                 showGuessFlag = true
             }, label: {
@@ -53,6 +63,12 @@ struct ContentView: View {
             })
             .sheet(isPresented: $showGuessFlag, content: {
                 GuessTheFlag(flagNumber: chosenFlag)
+            })
+            
+            Button(action: {
+                chosenFlag = Int.random(in: 1..<264)
+            }, label: {
+                Text("New Flag!!!")
             })
         }
     }

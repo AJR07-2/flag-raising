@@ -25,10 +25,10 @@ struct GuessTheFlag: View {
                 .frame(width: 200, height: 50, alignment: .center)
             
             Button(action: {
-                let flagName:String = flagNames[flagNumber]
-                print(flagName)
+                let flagName:String = String(Flags[flagNumber].dropFirst(4))
                 showResult = true
                 input = input.lowercased()
+                print(flagName)
                 if(flagName == input){
                     Result = true
                 } else {
