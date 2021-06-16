@@ -22,10 +22,13 @@ struct GuessTheFlag: View {
                 .frame(width: 100, height: 100, alignment: .center)
             TextField("Flag Name:", text: $input)
                 .border(Color.black)
+                .frame(width: 200, height: 50, alignment: .center)
             
             Button(action: {
                 let flagName:String = flagNames[flagNumber]
+                print(flagName)
                 showResult = true
+                input = input.lowercased()
                 if(flagName == input){
                     Result = true
                 } else {
@@ -38,8 +41,12 @@ struct GuessTheFlag: View {
             if(showResult){
                 if(Result){
                     Image("correct")
+                        .resizable()
+                        .frame(width: 100, height: 100, alignment: .center)
                 } else {
                     Image("wrong")
+                        .resizable()
+                        .frame(width: 100, height: 100, alignment: .center)
                 }
             }
         }

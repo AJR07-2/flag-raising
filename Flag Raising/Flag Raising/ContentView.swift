@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     let chosenFlag = Int.random(in: 1..<264)
     @State var flagOffset = 225
+    @State var showGuessFlag = false
     var body: some View {
         VStack{
             Text("Flag Raising!!!")
@@ -46,9 +47,12 @@ struct ContentView: View {
                     )
             }
             Button(action: {
-                
+                showGuessFlag = true
             }, label: {
                 Text("Guess the flag!")
+            })
+            .sheet(isPresented: $showGuessFlag, content: {
+                GuessTheFlag(flagNumber: chosenFlag)
             })
         }
     }
